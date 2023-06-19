@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: webapi
-          image: kundanpandey15/climateapi
+          image: kundanpandey15/climateapi:1
           ports:
             - containerPort: 80
           envFrom:
