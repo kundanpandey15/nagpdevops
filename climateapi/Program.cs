@@ -16,10 +16,9 @@ IConfiguration _configuration = new ConfigurationBuilder()
     .Build();
 
 // Configure MongoDB
-var connectionString = _configuration.GetConnectionString("MongoDB");
+var connectionString = _configuration.GetSection("ConnectionString").Value ?? "";
 var mongoClient = new MongoClient(connectionString);
-var databaseName = _configuration.GetValue<string>("MongoDB:DatabaseName");
-var database = mongoClient.GetDatabase(databaseName);
+var database = mongoClient.GetDatabase("WeatherForecast");
 
 // Register IMongoDatabase for dependency injection
 builder.Services.AddSingleton(database);
