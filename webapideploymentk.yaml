@@ -26,6 +26,16 @@ spec:
                   configMapKeyRef:
                     name: mongo-config
                     key: ConnectionString
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: password
 
 ---
 

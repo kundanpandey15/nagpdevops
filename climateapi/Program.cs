@@ -16,8 +16,18 @@ IConfiguration _configuration = new ConfigurationBuilder()
     .Build();
 
 // Configure MongoDB
-var connectionString = _configuration.GetSection("ConnectionString").Value ?? "";
-var mongoClient = new MongoClient(connectionString);
+var userName = _configuration.GetSection("username").Value ?? "";
+var password = _configuration.GetSection("password").Value ?? "";
+var connectionString = String.Format(_configuration.GetSection("ConnectionString").Value ?? "", userName, password);
+
+//MongoCredential credential = MongoCredential.CreateCredential("admin", userName, password);
+//var settings = new MongoClientSettings
+//{
+//    Credential = credential,
+//    Server = new MongoServerAddress(_configuration.GetSection("MONGO_HOST").Value, Convert.ToInt32(_configuration.GetSection("MONGO_PORT").Value))
+//};
+
+var mongoClient = new MongoClient(new MongoUrl(connectionString));
 var database = mongoClient.GetDatabase("WeatherForecast");
 
 // Register IMongoDatabase for dependency injection

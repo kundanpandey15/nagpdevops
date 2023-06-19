@@ -9,11 +9,13 @@ namespace climateapi.Controllers
     {
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IMongoCollection<WeatherForecast> _weatherForecastCollection;
+        private readonly IConfiguration _configuration;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMongoDatabase database)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMongoDatabase database, IConfiguration configuration)
         {
             _logger = logger;
             _weatherForecastCollection = database.GetCollection<WeatherForecast>("WeatherForecast");
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -28,6 +30,17 @@ namespace climateapi.Controllers
         public string GetTestPage()
         {
             return "Test Page hit is successfull";
+        }
+
+        [HttpGet]
+        [Route("test1")]
+        public string GetTestPage1()
+        {
+            var userName = _configuration.GetSection("username").Value ?? "";
+            var password = _configuration.GetSection("password").Value ?? "";
+            var connectionString = String.Format(_configuration.GetSection("ConnectionString").Value ?? "", userName, password);
+
+            return connectionString;
         }
 
         [HttpPost]
