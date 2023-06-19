@@ -36,11 +36,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: mongo-config
-
-  volumes:
-    - name: mongo-persistent-storage
-      persistentVolumeClaim:
-        claimName: mongo-pvc
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
 
 ---
 
@@ -53,5 +52,5 @@ spec:
     app: mongo
   ports:
     - protocol: TCP
-      port: 27017
+      port: 1234
       targetPort: 27017
